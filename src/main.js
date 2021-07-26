@@ -4,8 +4,8 @@ const Noble = require("noble");
 
 const BeaconScanner = require("node-beacon-scanner");
 
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline');
+// const SerialPort = require('serialport')
+// const Readline = require('@serialport/parser-readline');
 
 
 var scanner = new BeaconScanner();
