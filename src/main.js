@@ -96,7 +96,7 @@ scanner.onadvertisement = ad => {
   }
 };
 
-var scanmode = 'onboard'
+var scanmode = 'dongle'
 switch(scanmode) {
   case "onboard":
 
