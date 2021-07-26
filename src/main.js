@@ -3,21 +3,26 @@ const http = require("http");
 const Noble = require("noble");
 
 const BeaconScanner = require("node-beacon-scanner");
-
 var os = require("os");
 
-
 // const SerialPort = require('serialport')
-
-
-
 var scanner = new BeaconScanner();
 
-
-
-
 var hostname = os.hostname();
+var mqtt = require('mqtt')
 
+// var mqttBroker = process.env.MQTT_BROKER
+// var mqttPort = process.env.MQTT_PORT
+// var userMqtt = process.env.MQTT_USER
+// var passMqtt = process.env.MQTT_PASS
+// var topicMqtt = process.env.MQTT_TOPIC
+
+var mqttBroker = "10.57.16.20"
+var mqttPort = "1883"
+var userMqtt = process.env.MQTT_USER
+var passMqtt = process.env.MQTT_PASS
+var topicMqtt = "rtls/blescan"
+var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId:'watcherRTLS'})
 
 const options = {
   hostname: 'rtlsdatabase',
@@ -86,6 +91,8 @@ scanner.onadvertisement = ad => {
     data = JSON.stringify(ad);
     var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.id}&RSSI=${ad.rssi}`
     console.log(payloadMQTT);
+
+    client.publish(topicMqtt, payloadMQTT)
 
     // const req = http.request(options, res => {
  
