@@ -24,12 +24,12 @@ var topicMqtt = process.env.MQTT_TOPIC
 // var passMqtt = process.env.MQTT_PASS
 // var topicMqtt = "rtls/blescan"
 var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId:'watcherRTLS'})
-
+var payloadMQTT;
 scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
     ad.localName = hostname;
     data = JSON.stringify(ad);
-    var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.address}&RSSI=${ad.rssi}`
+    payloadMQTT = `Gateway=${hostname}&Beacon=${ad.address}&RSSI=${ad.rssi}`
     console.log(payloadMQTT);
 
     client.publish(topicMqtt, payloadMQTT)
@@ -66,10 +66,10 @@ switch(scanmode) {
 	    console.log('Serial port opened');
 		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
 		parser.on('data', (d)=>{
-            console.log("Data:" + d)
+            console.log("Dongle:" + d)
             jsa = JSON.parse(d)
-            console.log(jsa.Device);
-            console.log(jsa.RSSI);
+            payloadMQTT = `Gateway=${hostname}&Beacon=${jsa.Device}&RSSI=${jsa.RSSI}`
+            client.publish(topicMqtt, payloadMQTT)
         })
 	
 	});
