@@ -18,7 +18,7 @@ var userMqtt = process.env.MQTT_USER
 var passMqtt = process.env.MQTT_PASS
 var topicMqtt = process.env.MQTT_TOPIC
 
-var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId:'watcherRTLS'})
+var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId:hostname})
 var payloadMQTT;
 scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
