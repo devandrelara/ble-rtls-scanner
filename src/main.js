@@ -67,6 +67,9 @@ switch(scanmode) {
 		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
 		parser.on('data', (d)=>{
             console.log("Data:" + d)
+            jsa = JSON.parse(d)
+            console.log(jsa.Device);
+            console.log(jsa.RSSI);
         })
 	
 	});
