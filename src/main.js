@@ -5,7 +5,7 @@ const Noble = require("noble");
 const BeaconScanner = require("node-beacon-scanner");
 var os = require("os");
 
-// const SerialPort = require('serialport')
+const SerialPort = require('serialport')
 var scanner = new BeaconScanner();
 
 var hostname = os.hostname();
