@@ -4,6 +4,9 @@ const Noble = require("noble");
 
 const BeaconScanner = require("node-beacon-scanner");
 
+var os = require("os");
+
+
 // const SerialPort = require('serialport')
 
 
@@ -12,9 +15,8 @@ var scanner = new BeaconScanner();
 
 
 
-var MacAddr;
-// console.log("SERVER:"+process.env.SERVER_ADDRESS)
-MacAddr = 'BRBELTEST'
+
+var hostname = os.hostname();
 
 
 const options = {
@@ -80,7 +82,7 @@ function myTimer() {
 
 scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
-    ad.localName = MacAddr;
+    ad.localName = hostname;
     data = JSON.stringify(ad);
 
     console.log(data);
