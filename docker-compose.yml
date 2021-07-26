@@ -18,6 +18,7 @@ services:
       - MQTT_TOPIC=${MQTT_TOPIC}
       - MQTT_USER=${MQTT_USER}
       - MQTT_PASS=${MQTT_PASS}
+      - SCAN_MODE=${SCAN_MODE}
     network_mode: host
     volumes:
       - /etc/hostname:/etc/hostname

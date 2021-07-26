@@ -89,31 +89,16 @@ scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
     ad.localName = hostname;
     data = JSON.stringify(ad);
-    var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.id}&RSSI=${ad.rssi}`
+    var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.address}&RSSI=${ad.rssi}`
     console.log(payloadMQTT);
 
     client.publish(topicMqtt, payloadMQTT)
-
-    // const req = http.request(options, res => {
- 
-    //     res.on("data", d => {
-    //       process.stdout.write(d)
-    //     });
-    // });
-
-    // req.on("error", error => {
-    //   console.error("Advertising HTTP Request Error: " + error);
-    // });
-	
-    // req.write(data);
-    // console.log(data);
-    // req.end();
   }
 };
 
-
-// switch("DONGLE") {
-//   case "ONBOARD":
+var scanmode = 'onboard'
+switch(scanmode) {
+  case "onboard":
 
 
 	scanner.startScan().then(() => {
@@ -125,31 +110,31 @@ scanner.onadvertisement = ad => {
 	});
 	
 
-//     break;
+    break;
   
-//   case "DONGLE":
+  case "dongle":
     
-// 	var port = new SerialPort("/dev/ttyACM0", {
-// 	    baudRate: 115200,
-// 	    parity: 'none',
-// 	    stopBits: 1,
-// 	    dataBits: 8,
-// 	    flowControl: false
-// 	});
+	var port = new SerialPort("/dev/ttyACM0", {
+	    baudRate: 115200,
+	    parity: 'none',
+	    stopBits: 1,
+	    dataBits: 8,
+	    flowControl: false
+	});
 	
 	
-// 	port.on("open", function () {
-// 	    console.log('Serial port opened');
+	port.on("open", function () {
+	    console.log('Serial port opened');
 	
-// 		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
 		
-// 		parser.on('data', console.log)
+		parser.on('data', console.log)
 	
-// 	});
+	});
 
 
-//     break;
+    break;
   
-//   default:
-//     console.log("Unrecognized scanMode:" + process.env.SCANMODE);
-// }
+  default:
+    console.log("Unrecognized scanMode:" + scanmode);
+}
