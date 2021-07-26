@@ -18,11 +18,6 @@ var userMqtt = process.env.MQTT_USER
 var passMqtt = process.env.MQTT_PASS
 var topicMqtt = process.env.MQTT_TOPIC
 
-// var mqttBroker = "10.57.16.20"
-// var mqttPort = "1883"
-// var userMqtt = process.env.MQTT_USER
-// var passMqtt = process.env.MQTT_PASS
-// var topicMqtt = "rtls/blescan"
 var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId:'watcherRTLS'})
 var payloadMQTT;
 scanner.onadvertisement = ad => {
@@ -36,7 +31,7 @@ scanner.onadvertisement = ad => {
   }
 };
 
-var scanmode = 'dongle'
+var scanmode = process.env.SCAN_MODE
 switch(scanmode) {
   case "onboard":
 
