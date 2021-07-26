@@ -84,7 +84,7 @@ scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
     ad.localName = hostname;
     data = JSON.stringify(ad);
-    var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.id}&RSSI=${rssi}`
+    var payloadMQTT = `Gateway=${hostname}&Beacon=${ad.id}&RSSI=${ad.rssi}`
     console.log(payloadMQTT);
 
     // const req = http.request(options, res => {
