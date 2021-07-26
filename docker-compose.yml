@@ -5,7 +5,7 @@
 version: '2'
 services:
   BLE:
-    image: beacon-gateway:legacy
+    image: docker.corp.jabil.org/automation-bel/beacon-gateway:legacy
     privileged: true
     tty: true
     dns_search: corp.jabil.org
