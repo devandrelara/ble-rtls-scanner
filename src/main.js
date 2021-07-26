@@ -5,7 +5,7 @@ const Noble = require("noble");
 const BeaconScanner = require("node-beacon-scanner");
 
 // const SerialPort = require('serialport')
-// const Readline = require('@serialport/parser-readline');
+
 
 
 var scanner = new BeaconScanner();
@@ -50,7 +50,7 @@ const options2 = {
 };
 
 
-var myVar = setInterval(myTimer, 5000);
+// var myVar = setInterval(myTimer, 5000);
 
 function myTimer() {
   
