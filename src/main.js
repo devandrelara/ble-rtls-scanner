@@ -6,7 +6,7 @@ const BeaconScanner = require("node-beacon-scanner");
 
 const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline');
-const { Console } = require("console");
+
 
 var scanner = new BeaconScanner();
 
