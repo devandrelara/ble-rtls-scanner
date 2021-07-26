@@ -16,4 +16,4 @@ RUN npm install noble \
 COPY src/. /gateway-root/
 RUN chmod +x /gateway-root/main.js
 
-CMD ["nodejs" "/gateway-root/main.js"]
+CMD ["node" "/gateway-root/main.js"]
