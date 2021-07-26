@@ -1,0 +1,23 @@
+# Automation Team - Jabil Belo
+# Agosto de 2019
+# v1.2
+
+version: '2'
+services:
+  BLE:
+    image: beacon-gateway:legacy
+    privileged: true
+    tty: true
+    dns_search: corp.jabil.org
+    environment:
+      - SERVER_ADDRESS=BRBELRASP666
+      - SERVER_PORT=3015
+      - SCANMODE=DONGLE
+    network_mode: host
+    volumes:
+      - /etc/hostname:/etc/hostname
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyACM0"
+    
+
+      
