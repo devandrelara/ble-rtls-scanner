@@ -17,8 +17,9 @@ var mqttPort = process.env.MQTT_PORT
 var userMqtt = process.env.MQTT_USER
 var passMqtt = process.env.MQTT_PASS
 var topicMqtt = process.env.MQTT_TOPIC
+var clientIdMqtt = makeid(12)
 
-var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId: hostname})
+var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId: clientIdMqtt})
 var payloadMQTT;
 scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
@@ -73,4 +74,16 @@ switch(scanmode) {
   
   default:
     console.log("Unrecognized scanMode:" + scanmode);
+}
+
+function makeid(length) {
+    var result           = [];
+    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result.push(characters.charAt(Math.floor(Math.random() * 
+ charactersLength)));
+   }
+   
+   return result.join('').toLocaleLowerCase();
 }
