@@ -10,14 +10,9 @@ services:
     tty: true
     dns_search: corp.jabil.org
     environment:
-      - APP_HOST=${APP_HOST}
-      - APP_PORT=${APP_PORT}
-      - NODE_ENV=${NODE_ENV}
       - MQTT_BROKER=${MQTT_BROKER}
       - MQTT_PORT=${MQTT_PORT}
       - MQTT_TOPIC=${MQTT_TOPIC}
-      - MQTT_USER=${MQTT_USER}
-      - MQTT_PASS=${MQTT_PASS}
       - SCAN_MODE=${SCAN_MODE}
     network_mode: host
     volumes:
