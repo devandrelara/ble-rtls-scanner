@@ -14,8 +14,6 @@ var mqtt = require('mqtt')
 
 var mqttBroker = process.env.MQTT_BROKER
 var mqttPort = process.env.MQTT_PORT
-var userMqtt = process.env.MQTT_USER
-var passMqtt = process.env.MQTT_PASS
 var topicMqtt = process.env.MQTT_TOPIC
 var clientIdMqtt = makeid(12)
 
