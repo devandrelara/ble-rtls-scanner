@@ -17,8 +17,6 @@ services:
     network_mode: host
     volumes:
       - /etc/hostname:/etc/hostname
-    # devices:
-    #   - "/dev/ttyUSB0:/dev/ttyACM0"
     
 
       
