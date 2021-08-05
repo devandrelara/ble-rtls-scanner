@@ -23,7 +23,8 @@ scanner.onadvertisement = ad => {
   if (ad.beaconType == "eddystoneTlm") {
     ad.localName = hostname;
     data = JSON.stringify(ad);
-    payloadMQTT = `Gateway=${hostname}&Beacon=${ad.address}&RSSI=${ad.rssi}`
+    timeNow = Date.now()
+    payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&TimeMillisGatewayReading=${timeNow}`
     console.log(payloadMQTT);
 
     client.publish(topicMqtt, payloadMQTT)
@@ -62,7 +63,8 @@ switch(scanmode) {
 		parser.on('data', (d)=>{
             console.log("Dongle:" + d)
             jsa = JSON.parse(d)
-            payloadMQTT = `Gateway=${hostname}&Beacon=${jsa.Device}&RSSI=${jsa.RSSI}`
+            timeNow = Date.now()
+            payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
             client.publish(topicMqtt, payloadMQTT)
         })
 	
