@@ -10,10 +10,10 @@ services:
     tty: true
     dns_search: corp.jabil.org
     environment:
-      - MQTT_BROKER=${MQTT_BROKER}
-      - MQTT_PORT=${MQTT_PORT}
-      - MQTT_TOPIC=${MQTT_TOPIC}
-      - SCAN_MODE=${SCAN_MODE}
+      - MQTT_BROKER=10.57.16.20
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=rtls/blescan
+      - SCAN_MODE=dongle
     network_mode: host
     volumes:
       - /etc/hostname:/etc/hostname
