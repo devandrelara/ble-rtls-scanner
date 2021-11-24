@@ -33,43 +33,57 @@ scanner.onadvertisement = ad => {
 };
 
 var scanmode = process.env.SCAN_MODE
+console.log(scanmode)
 
-try{
-  var port = new SerialPort("/dev/ttyACM0", {
-    baudRate: 115200,
-    parity: 'none',
-    stopBits: 1,
-    dataBits: 8,
-    flowControl: false
-});
+try {
+  try {
+    
 
+    	var port = new SerialPort("/dev/ttyACM0", {
+	    baudRate: 115200,
+	    parity: 'none',
+	    stopBits: 1,
+	    dataBits: 8,
+	    flowControl: false
+	});
+	
+	
+	port.on("open", function () {
+	    console.log('Serial port opened');
+		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+		parser.on('data', (d)=>{
+            console.log("Dongle:" + d)
+            jsa = JSON.parse(d)
+            timeNow = Date.now()
+            payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
+            client.publish(topicMqtt, payloadMQTT)
+        })
+	
+	});
+  throw new Error("Não abriu porta serial");
 
-port.on("open", function () {
-    console.log('Serial port opened');
-  const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
-  parser.on('data', (d)=>{
-          console.log("Dongle:" + d)
-          jsa = JSON.parse(d)
-          timeNow = Date.now()
-          payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
-          client.publish(topicMqtt, payloadMQTT)
-      })
+  }
+  catch (ex) {
 
-});
+	scanner.startScan().then(() => {
+	    console.log("Scanning for BLE devices...");
+	    console.log('Started to scan.');
+	  })
+	  .catch(error => {
+	    console.error("Scan Init Error:" + error);
+	});
 
+    console.error("inner", ex.message);
+  }
+  finally {
+    console.log("finally");
+  }
 }
-catch (e){
+catch (ex) {
 
-  console.log(e)
-  scanner.startScan().then(() => {
-    console.log("Scanning for BLE devices...");
-    console.log('Started to scan.');
-  })
-  .catch(error => {
-    console.error("Scan Init Error:" + error);
-});
-
+  console.error("nao deu pra fazer nem um nem outro", ex.message);
 }
+
 // switch(scanmode) {
 //   case "onboard":
 
