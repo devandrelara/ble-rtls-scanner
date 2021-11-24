@@ -25,6 +25,7 @@ scanner.onadvertisement = ad => {
     data = JSON.stringify(ad);
     timeNow = Date.now()
     payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&TimeMillisGatewayReading=${timeNow}`
+    console.log("onboard:")
     console.log(payloadMQTT);
 
     client.publish(topicMqtt, payloadMQTT)
@@ -32,49 +33,86 @@ scanner.onadvertisement = ad => {
 };
 
 var scanmode = process.env.SCAN_MODE
-switch(scanmode) {
-  case "onboard":
 
-	scanner.startScan().then(() => {
-	    console.log("Scanning for BLE devices...");
-	    console.log('Started to scan.');
-	  })
-	  .catch(error => {
-	    console.error("Scan Init Error:" + error);
-	});
-	
+try{
+  var port = new SerialPort("/dev/ttyACM0", {
+    baudRate: 115200,
+    parity: 'none',
+    stopBits: 1,
+    dataBits: 8,
+    flowControl: false
+});
 
-    break;
-  
-  case "dongle":
-    
-	var port = new SerialPort("/dev/ttyACM0", {
-	    baudRate: 115200,
-	    parity: 'none',
-	    stopBits: 1,
-	    dataBits: 8,
-	    flowControl: false
-	});
-	
-	
-	port.on("open", function () {
-	    console.log('Serial port opened');
-		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
-		parser.on('data', (d)=>{
-            console.log("Dongle:" + d)
-            jsa = JSON.parse(d)
-            timeNow = Date.now()
-            payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
-            client.publish(topicMqtt, payloadMQTT)
-        })
-	
-	});
 
-    break;
-  
-  default:
-    console.log("Unrecognized scanMode:" + scanmode);
+port.on("open", function () {
+    console.log('Serial port opened');
+  const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+  parser.on('data', (d)=>{
+          console.log("Dongle:" + d)
+          jsa = JSON.parse(d)
+          timeNow = Date.now()
+          payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
+          client.publish(topicMqtt, payloadMQTT)
+      })
+
+});
+
 }
+catch (e){
+
+  console.log(e)
+  scanner.startScan().then(() => {
+    console.log("Scanning for BLE devices...");
+    console.log('Started to scan.');
+  })
+  .catch(error => {
+    console.error("Scan Init Error:" + error);
+});
+
+}
+// switch(scanmode) {
+//   case "onboard":
+
+// 	scanner.startScan().then(() => {
+// 	    console.log("Scanning for BLE devices...");
+// 	    console.log('Started to scan.');
+// 	  })
+// 	  .catch(error => {
+// 	    console.error("Scan Init Error:" + error);
+// 	});
+	
+
+//     break;
+  
+//   case "dongle":
+    
+// 	var port = new SerialPort("/dev/ttyACM0", {
+// 	    baudRate: 115200,
+// 	    parity: 'none',
+// 	    stopBits: 1,
+// 	    dataBits: 8,
+// 	    flowControl: false
+// 	});
+	
+	
+// 	port.on("open", function () {
+// 	    console.log('Serial port opened');
+// 		const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+// 		parser.on('data', (d)=>{
+//             console.log("Dongle:" + d)
+//             jsa = JSON.parse(d)
+//             timeNow = Date.now()
+//             payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
+//             client.publish(topicMqtt, payloadMQTT)
+//         })
+	
+// 	});
+
+//     break;
+  
+//   default:
+//     console.log("Unrecognized scanMode:" + scanmode);
+// }
 
 function makeid(length) {
     var result           = [];
