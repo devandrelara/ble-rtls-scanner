@@ -24,7 +24,7 @@ scanner.onadvertisement = ad => {
     ad.localName = hostname;
     data = JSON.stringify(ad);
     timeNow = Date.now()
-    payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&TimeMillisGatewayReading=${timeNow}`
+    payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&TimeMillisGatewayReading=${timeNow}&Mode=Onboard`
     console.log("onboard:")
     console.log(payloadMQTT);
 
@@ -55,7 +55,7 @@ try {
             console.log("Dongle:" + d)
             jsa = JSON.parse(d)
             timeNow = Date.now()
-            payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}`
+            payloadMQTT = `IdGateway=${hostname}&MacBeacon=${jsa.Device}&RSSI=${jsa.RSSI}&TimeMillisGatewayReading=${timeNow}&Mode=Dongle`
             client.publish(topicMqtt, payloadMQTT)
         })
 	
