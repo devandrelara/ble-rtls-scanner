@@ -1,19 +1,9 @@
-# Automation Team - Jabil Belo
-# Agosto de 2019
-# v1.2
-
 version: '2'
 services:
   BLE:
-    image: docker.corp.jabil.org/automation-bel/beacon-gateway:legacy
+    image: beacon-scanner
     privileged: true
     tty: true
-    dns_search: corp.jabil.org
-    environment:
-      - MQTT_BROKER=10.57.16.20
-      - MQTT_PORT=1883
-      - MQTT_TOPIC=rtls/blescan
-      - SCAN_MODE=dongle
     network_mode: host
     volumes:
       - /etc/hostname:/etc/hostname

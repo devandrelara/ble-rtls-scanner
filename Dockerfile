@@ -9,11 +9,10 @@ RUN apt-get update && apt-get install -y bluetooth \
 
 RUN npm install noble \
 	node-beacon-scanner\
-	serialport \
 	mqtt
 
 # copy script files
-COPY src/. /gateway-root/
-RUN chmod +x /gateway-root/main.js
+COPY src/. /scanner/
+RUN chmod +x /scanner/main.js
 
-CMD [ "node", "/gateway-root/main.js" ]
+CMD [ "node", "/scanner/main.js" ]
