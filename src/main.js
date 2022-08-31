@@ -1,12 +1,27 @@
 const BeaconScanner = require("node-beacon-scanner");
-
-
+var os = require("os");
+var mqtt = require('mqtt')
 var scanner = new BeaconScanner();
 
+var mqttBroker = process.env.MQTT_BROKER
+var mqttPort = process.env.MQTT_PORT
+var topicMqtt = process.env.MQTT_TOPIC
+var clientIdMqtt = makeid(12)
+
+var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId: clientIdMqtt})
+
+var hostname = os.hostname();
+var payloadMQTT;
+
 scanner.onadvertisement = ad => {
+  ad.localName = hostname;
   data = JSON.stringify(ad);
-  console.log(ad)
+  timeNow = Date.now()
+  payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&Time=${timeNow}`
   
+  console.log(payloadMQTT);
+
+  client.publish(topicMqtt, payloadMQTT)
 };
 
 scanner.startScan().then(() => {

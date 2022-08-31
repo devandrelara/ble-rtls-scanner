@@ -7,6 +7,9 @@ services:
     network_mode: host
     volumes:
       - /etc/hostname:/etc/hostname
-    
+    environment:
+      - MQTT_BROKER=broker.emqx.io
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=aoliveira/rtls
 
       
