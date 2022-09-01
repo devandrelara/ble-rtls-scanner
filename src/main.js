@@ -12,7 +12,7 @@ var client  = mqtt.connect({hostname: mqttBroker, port: mqttPort, clientId: clie
 
 var hostname = os.hostname();
 var payloadMQTT;
-
+var startime = Date.now()
 scanner.onadvertisement = ad => {
   ad.localName = hostname;
   data = JSON.stringify(ad);
@@ -20,7 +20,7 @@ scanner.onadvertisement = ad => {
   payloadMQTT = `IdGateway=${hostname}&MacBeacon=${ad.address}&RSSI=${ad.rssi}&Time=${timeNow}`
   
   console.log(payloadMQTT);
-
+  console.log((timeNow-startime)/1000)
   client.publish(topicMqtt, payloadMQTT)
 };
 
